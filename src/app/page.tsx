@@ -136,6 +136,9 @@ export default function Home() {
       travelCost: total.travelCost,
       tjm: total.tjm,
       totalHT: total.totalHT,
+      totalDays: total.totalDays,
+      tva: total.tva,
+      totalTTC: total.totalTTC,
     });
 
     const buffer = await Packer.toBuffer(doc);
@@ -340,27 +343,27 @@ export default function Home() {
 
       {/* Export Dialog */}
       <Dialog open={showExport} onOpenChange={setShowExport}>
-        <DialogContent className="glass-card">
+        <DialogContent className="bg-white border-2 border-gray-200 shadow-xl">
           <DialogHeader>
-            <DialogTitle className="gradient-text">EXPORTER LE CHIFFRAGE</DialogTitle>
+            <DialogTitle className="gradient-text text-2xl">Générer le devis</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4">
+          <div className="space-y-6 pt-4">
             <div>
-              <label className="text-gray-900 text-sm">Nom du client</label>
+              <label className="text-gray-700 font-medium block mb-2">Nom du client</label>
               <Input
                 type="text"
                 value={clientName}
                 onChange={(e) => setClientName(e.target.value)}
-                className="glass-input mt-1"
-                placeholder="Nom du client"
+                className="border border-gray-300 bg-white focus:border-primary/50 focus:ring-2 focus:ring-primary/25"
+                placeholder="Entrez le nom du client"
               />
             </div>
             <Button
               onClick={handleExport}
-              className="w-full bg-gradient-to-r from-[#FFBE98] to-[#3A2AF5] hover:opacity-90"
+              className="w-full bg-gradient-to-r from-[#FFBE98] to-[#3A2AF5] hover:opacity-90 text-white font-medium py-2"
               disabled={!clientName}
             >
-              Télécharger le document
+              Télécharger le devis
             </Button>
           </div>
         </DialogContent>
