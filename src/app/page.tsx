@@ -178,7 +178,7 @@ export default function Home() {
           </div>
         </RadioGroup>
         <p className="text-white/80 italic">
-          Nous préconisons fortement une formation en présentiel, car elle améliore considérablement l'expérience et les résultats des apprenants.
+          Nous préconisons fortement une formation en présentiel, car elle améliore considérablement l&apos;expérience et les résultats des apprenants.
         </p>
       </div>
 
