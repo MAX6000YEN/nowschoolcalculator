@@ -106,6 +106,8 @@ export default function Home() {
 
     const tjm = Number(formData.tjm);
     const totalHT = (tjm * totalDays) + travelCost;
+    const tva = totalHT * 0.20;
+    const totalTTC = totalHT + tva;
 
     return {
       formation: selectedFormation?.name + " - " + selectedFormation?.duration,
@@ -115,7 +117,9 @@ export default function Home() {
       travelCost: travelCost,
       tjm: tjm,
       totalHT: totalHT,
-      totalDays: totalDays
+      totalDays: totalDays,
+      tva: tva,
+      totalTTC: totalTTC
     };
   };
 
