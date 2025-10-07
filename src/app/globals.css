@@ -14,22 +14,23 @@
   src: url('/fonts/Nexa-Bold.woff2') format('woff2');
   font-weight: bold;
   font-style: normal;
+  font-style: italic;
 }
 
 body {
-  @apply bg-gradient-to-br from-primary to-secondary min-h-screen text-white;
+  @apply bg-white min-h-screen;
 }
 
 .glass-card {
-  @apply bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg;
+  @apply bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg border border-gray-200;
 }
 
 .glass-input {
-  @apply bg-white/10 backdrop-blur-lg rounded-lg p-2 text-white placeholder-white/50 outline-none focus:ring-2 focus:ring-white/25 w-full;
+  @apply bg-white/10 backdrop-blur-lg rounded-lg p-2 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-primary/25 w-full border border-gray-200;
 }
 
 .gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary font-bold italic;
 }
 
 /* Style des boutons radio */
@@ -42,7 +43,7 @@ body {
 }
 
 .radio-option input[type="radio"] {
-  @apply appearance-none w-4 h-4 rounded-full border-2 border-white/50 checked:bg-white checked:border-white transition-all duration-200 cursor-pointer;
+  @apply appearance-none w-4 h-4 rounded-full border-2 border-primary/50 checked:bg-primary checked:border-primary transition-all duration-200 cursor-pointer;
 }
 
 .radio-option label {

@@ -137,7 +137,7 @@ export default function Home() {
       <h1 className="text-4xl font-bold text-center gradient-text mb-8">Calculateur d'offres de formation</h1>
       {/* Section 1: Formation */}
       <div className="glass-card p-6 space-y-4">
-        <h2 className="text-2xl font-bold text-white mb-4">Choix de la formation</h2>
+        <h2 className="text-2xl gradient-text mb-4">Choix de la formation</h2>
         <RadioGroup
           value={formData.formation}
           onValueChange={(value) => setFormData({ ...formData, formation: value })}
@@ -190,6 +190,7 @@ export default function Home() {
           min="1"
           value={formData.sessions}
           onChange={(e) => setFormData({ ...formData, sessions: e.target.value })}
+          placeholder="Nombre de sessions"
           className="glass-input text-white"
         />
         <p className="text-white/80 italic">
@@ -227,20 +228,21 @@ export default function Home() {
       <div className="glass-card p-6 space-y-4">
         <h2 className="text-2xl font-bold text-white mb-4">TJM (€ HT/jour)</h2>
         <Input
-          type="number"
-          min="1000"
-          value={formData.tjm}
-          onChange={(e) => setFormData({ ...formData, tjm: e.target.value })}
-          className="glass-input text-white"
+            type="number"
+            min="1000"
+            value={formData.tjm}
+            onChange={(e) => setFormData({ ...formData, tjm: e.target.value })}
+            placeholder="Entrez votre TJM"
+            className="glass-input"
         />
         {Number(formData.tjm) < 1000 && (
-          <p className="text-red-400">Le TJM minimum est de 1000 € HT.</p>
+          <p className="text-red-500">Le TJM minimum est de 1000 € HT.</p>
         )}
       </div>
 
       {/* Section 6: Calculate */}
       <div className="glass-card p-6 space-y-4">
-        <h3 className="text-2xl font-bold mb-4 text-white">Récapitulatif</h3>
+        <h2 className="text-2xl gradient-text mb-4">Récapitulatif</h2>
         {!formData.formation ? (
           <p className="text-yellow-200">Vous devez choisir une formation</p>
         ) : !formData.mode ? (
@@ -301,10 +303,11 @@ export default function Home() {
             <div>
               <label className="text-white text-sm">Nom du client</label>
               <Input
-                value={clientName}
-                onChange={(e) => setClientName(e.target.value)}
-                className="glass-input text-white mt-1"
-                placeholder="Nom du client"
+            type="text"
+            value={clientName}
+            onChange={(e) => setClientName(e.target.value)}
+            className="glass-input mt-1"
+            placeholder="Nom du client"
               />
             </div>
             {clientName && total && (
