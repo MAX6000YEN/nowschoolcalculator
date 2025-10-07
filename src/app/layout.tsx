@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,6 +16,16 @@ export default function RootLayout({
     <html lang="fr">
       <body>
         <div className="min-h-screen flex flex-col">
+          <header className="container mx-auto px-4 py-6 flex justify-center">
+            <Image
+              src="/Logo NowSchool - Fond clair.png"
+              alt="NowSchool Logo"
+              width={200}
+              height={60}
+              className="h-auto"
+              priority
+            />
+          </header>
           <main className="flex-grow container mx-auto px-4 py-8">
             {children}
           </main>

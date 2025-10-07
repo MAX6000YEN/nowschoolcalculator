@@ -4,20 +4,30 @@
 
 @font-face {
   font-family: 'Nexa';
-  src: url('/fonts/Nexa-Regular.woff2') format('woff2');
-  font-weight: normal;
+  src: url('/fonts/Fontfabric - Nexa Regular.otf') format('opentype');
+  font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'Nexa';
-  src: url('/fonts/Nexa-Bold.woff2') format('woff2');
-  font-weight: 1200;
-  font-style: italic;
+  src: url('/fonts/Fontfabric - Nexa Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Fontfabric - Nexa Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
 }
 
 body {
-  @apply bg-white min-h-screen text-gray-900;
+  @apply bg-white min-h-screen text-gray-900 font-['Nexa'];
 }
 
 .glass-card {
@@ -42,7 +52,7 @@ body {
 }
 
 .radio-option input[type="radio"] {
-  @apply appearance-none w-4 h-4 rounded-full border-2 border-primary/50 checked:bg-primary checked:border-primary transition-all duration-200 cursor-pointer;
+  @apply appearance-none w-4 h-4 rounded-full border-2 border-gray-400 checked:bg-primary checked:border-primary transition-all duration-200 cursor-pointer;
 }
 
 .radio-option label {
