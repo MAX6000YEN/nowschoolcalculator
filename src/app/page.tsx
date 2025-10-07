@@ -236,7 +236,7 @@ export default function Home() {
             className="glass-input"
         />
         {Number(formData.tjm) < 1000 && (
-          <p className="text-red-500">Le TJM minimum est de 1000 € HT.</p>
+          <p className="warning-text">Le TJM minimum est de 1000 € HT.</p>
         )}
       </div>
 
@@ -244,53 +244,53 @@ export default function Home() {
       <div className="glass-card p-6 space-y-4">
         <h2 className="text-2xl gradient-text mb-4">Récapitulatif</h2>
         {!formData.formation ? (
-          <p className="text-yellow-200">Vous devez choisir une formation</p>
-        ) : !formData.mode ? (
-          <p className="text-yellow-200">Vous devez choisir un mode de formation</p>
-        ) : formData.mode === "presentiel" && !formData.travelZone ? (
-          <p className="text-yellow-200">Vous devez choisir un forfait de déplacement</p>
-        ) : total && (
-          <div className="space-y-4 text-white">
-            <div className="space-y-2">
-              <p><strong>Formation :</strong> {total.formation}</p>
-              <p><strong>Mode :</strong> {total.mode}</p>
-              <p><strong>Nombre de sessions :</strong> {total.sessions}</p>
-              {total.mode === "Présentiel" && (
-                <>
-                  <p><strong>Zone de déplacement :</strong> {total.travelZone}</p>
-                  <div className="mt-2 p-4 bg-white/5 rounded-lg">
-                    <p className="font-bold mb-2">Détail des frais de déplacement :</p>
-                    {total.travelZone === "Local" && (
-                      <p>Pas de frais de déplacement pour cette zone.</p>
-                    )}
-                    {total.travelZone === "Régional" && (
-                      <p>Frais de déplacement : {total.travelCost} € HT ({Math.ceil(Number(total.sessions))} jour(s) × 180 € HT)</p>
-                    )}
-                    {total.travelZone === "Distante" && (
-                      <>
-                        <p>Frais de déplacement : {total.travelCost} € HT</p>
-                        <p className="text-sm text-white/80 mt-1">
-                          {Number(total.sessions) > 1
-                            ? `Détail : Premier jour (300 €) + ${Math.max(0, Number(total.sessions) - 2)} jour(s) intermédiaire(s) (${Math.max(0, Number(total.sessions) - 2)} × 220 €) + Dernier jour (300 €)`
-                            : "Forfait journée : 300 € HT"}
-                        </p>
-                      </>
-                    )}
+            <p className="warning-text">Vous devez choisir une formation</p>
+          ) : !formData.mode ? (
+            <p className="warning-text">Vous devez choisir un mode de formation</p>
+          ) : formData.mode === "presentiel" && !formData.travelZone ? (
+            <p className="warning-text">Vous devez choisir un forfait de déplacement</p>
+          ) : total && (
+            <>
+              <div className="space-y-4 text-gray-900">
+                <div className="flex justify-between items-center">
+                  <span>Formation :</span>
+                  <span className="font-bold">{total.formation}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>Mode :</span>
+                  <span className="font-bold">{total.mode}</span>
+                </div>
+                {total.mode === "Présentiel" && (
+                  <div className="flex justify-between items-center">
+                    <span>Zone de déplacement :</span>
+                    <span className="font-bold">{total.travelZone}</span>
                   </div>
-                </>
-              )}
-              <p><strong>TJM appliqué :</strong> {total.tjm} € HT</p>
-              <p className="text-xl font-bold mt-4 pt-4 border-t border-white/20">Total HT estimé : {total.totalHT} € HT</p>
-            </div>
-            <Button
-              onClick={() => setShowExport(true)}
-              className="w-full bg-gradient-to-r from-[#FFBE98] to-[#3A2AF5] hover:opacity-90 mt-6"
-              disabled={!total || Number(formData.tjm) < 1000}
-            >
-              Générer le devis
-            </Button>
-          </div>
-        )}
+                )}
+                <div className="flex justify-between items-center">
+                  <span>Nombre de sessions :</span>
+                  <span className="font-bold">{total.sessions}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>TJM :</span>
+                  <span className="font-bold">{total.tjm} € HT</span>
+                </div>
+                <div className="border-t border-gray-200 pt-4 mt-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-lg font-bold">Total :</span>
+                    <span className="text-lg font-bold">{total.totalHT} € HT</span>
+                  </div>
+                </div>
+              </div>
+              <Button
+                onClick={() => setShowExport(true)}
+                className="w-full bg-gradient-to-r from-[#FFBE98] to-[#3A2AF5] hover:opacity-90 mt-6"
+                disabled={!total || Number(formData.tjm) < 1000}
+              >
+                Générer le devis
+              </Button>
+            </>
+          )}
+        </div>
       </div>
 
       {/* Export Dialog */}
@@ -301,7 +301,7 @@ export default function Home() {
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <label className="text-white text-sm">Nom du client</label>
+              <label className="text-gray-900 text-sm">Nom du client</label>
               <Input
             type="text"
             value={clientName}
