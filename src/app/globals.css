@@ -12,7 +12,7 @@
 @font-face {
   font-family: 'Nexa';
   src: url('/fonts/Nexa-Bold.woff2') format('woff2');
-  font-weight: bold;
+  font-weight: 1200;
   font-style: italic;
 }
 
@@ -29,7 +29,7 @@ body {
 }
 
 .gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary font-bold italic uppercase font-['Nexa'];
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary font-black italic uppercase font-['Nexa'] tracking-wider;
 }
 
 /* Style des boutons radio */

@@ -46,7 +46,7 @@ const TRAVEL_ZONES: TravelZone[] = [
   {
     id: "distant",
     name: "Distante",
-    description: "Minimum une journée complète, tarification spéciale pour plusieurs jours",
+    description: "Minimum une journée complète, 300 € HT premier et dernier jour, 220 € HT par jour intermédiaire",
     pricing: "300"
   }
 ];
@@ -69,8 +69,23 @@ export default function Home() {
     }
 
     const selectedFormation = FORMATIONS.find(f => f.id === formData.formation);
-    const daysPerSession = selectedFormation?.duration.includes("journée") ? 1 : 0.25;
-    const totalDays = Number(formData.sessions) * daysPerSession;
+    const isHalfDay = selectedFormation?.duration.includes("½");
+    let totalDays;
+
+    if (formData.mode === "presentiel" && formData.travelZone === "distant") {
+      // Pour le forfait distant, une demi-journée compte comme une journée complète
+      if (isHalfDay) {
+        // Pour les sessions de demi-journée en distant :
+        // 1-2 sessions = 1 jour, 3-4 sessions = 2 jours, etc.
+        totalDays = Math.ceil(Number(formData.sessions) / 2);
+      } else {
+        // Pour les sessions d'une journée, pas de changement
+        totalDays = Number(formData.sessions);
+      }
+    } else {
+      // Pour tous les autres cas
+      totalDays = Number(formData.sessions) * (isHalfDay ? 0.5 : 1);
+    }
     
     let travelCost = 0;
     if (formData.mode === "presentiel" && formData.travelZone) {
@@ -78,6 +93,7 @@ export default function Home() {
       if (zone) {
         if (zone.id === "distant") {
           if (totalDays > 1) {
+            // Pour le forfait distant : 300€ premier jour + 220€ par jour intermédiaire + 300€ dernier jour
             travelCost = 300 + (220 * (totalDays - 2)) + 300;
           } else {
             travelCost = 300;
@@ -98,7 +114,8 @@ export default function Home() {
       travelZone: formData.mode === "presentiel" ? TRAVEL_ZONES.find(z => z.id === formData.travelZone)?.name : "N/A",
       travelCost: travelCost,
       tjm: tjm,
-      totalHT: totalHT
+      totalHT: totalHT,
+      totalDays: totalDays
     };
   };
 
@@ -145,7 +162,7 @@ export default function Home() {
         >
           {FORMATIONS.map((formation) => (
             <div key={formation.id} className="flex items-center space-x-3 text-gray-900 p-2 hover:bg-gray-100 rounded-lg">
-              <RadioGroupItem value={formation.id} id={formation.id} />
+              <RadioGroupItem value={formation.id} id={formation.id} className="border-gray-400 text-primary data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
               <label htmlFor={formation.id} className="flex-grow cursor-pointer">
                 {formation.name} – {formation.duration}
               </label>
@@ -169,11 +186,11 @@ export default function Home() {
           className="space-y-3"
         >
           <div className="flex items-center space-x-3 text-gray-900 p-2 hover:bg-gray-100 rounded-lg">
-            <RadioGroupItem value="presentiel" id="presentiel" />
+            <RadioGroupItem value="presentiel" id="presentiel" className="border-gray-400 text-primary data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
             <label htmlFor="presentiel" className="flex-grow cursor-pointer">Présentiel</label>
           </div>
           <div className="flex items-center space-x-3 text-gray-900 p-2 hover:bg-gray-100 rounded-lg">
-            <RadioGroupItem value="distanciel" id="distanciel" />
+            <RadioGroupItem value="distanciel" id="distanciel" className="border-gray-400 text-primary data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
             <label htmlFor="distanciel" className="flex-grow cursor-pointer">Distanciel</label>
           </div>
         </RadioGroup>
@@ -209,7 +226,7 @@ export default function Home() {
           >
             {TRAVEL_ZONES.map((zone) => (
               <div key={zone.id} className="flex items-center space-x-3 text-gray-900 p-2 hover:bg-gray-100 rounded-lg">
-                <RadioGroupItem value={zone.id} id={zone.id} />
+                <RadioGroupItem value={zone.id} id={zone.id} className="border-gray-400 text-primary data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
                 <label htmlFor={zone.id} className="flex flex-col flex-grow cursor-pointer">
                   <span className="font-bold">{zone.name}</span>
                   <span className="text-sm text-gray-600">{zone.description}</span>
@@ -271,19 +288,44 @@ export default function Home() {
                 <span className="font-bold">{total.sessions}</span>
               </div>
               <div className="flex justify-between items-center">
+                <span>Nombre de jours facturés :</span>
+                <span className="font-bold">{total.totalDays} {total.totalDays <= 1 ? "jour" : "jours"}</span>
+              </div>
+              <div className="flex justify-between items-center">
                 <span>TJM :</span>
                 <span className="font-bold">{total.tjm} € HT</span>
               </div>
-              <div className="border-t border-gray-200 pt-4 mt-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-lg font-bold">Total :</span>
-                  <span className="text-lg font-bold">{total.totalHT} € HT</span>
+              <div className="flex justify-between items-center">
+                <span>Frais de déplacement :</span>
+                <span className="font-bold">{total.travelCost} € HT</span>
+              </div>
+              {formData.travelZone !== "local" && (
+                <div className="text-sm text-gray-500 mt-1">
+                  {formData.travelZone === "regional" ? (
+                    `180 € x ${total.totalDays} ${total.totalDays <= 1 ? "jour" : "jours"} = ${total.travelCost} €`
+                  ) : (
+                    total.totalDays <= 1 ? 
+                    "300 € (forfait journée)" :
+                    `300 € (J1) + ${total.totalDays > 2 ? `220 € x ${total.totalDays - 2} j. + ` : ""}300 € (dernier J) = ${total.travelCost} €`
+                  )}
                 </div>
+              )}
+              <div className="flex justify-between items-center">
+                <span>Total HT :</span>
+                <span className="font-bold">{total.totalHT} € HT</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span>TVA (20%) :</span>
+                <span className="font-bold">{total.tva} €</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span>Total TTC :</span>
+                <span className="font-bold">{total.totalTTC} € TTC</span>
               </div>
             </div>
             <Button
               onClick={() => setShowExport(true)}
-              className="w-full bg-gradient-to-r from-[#FFBE98] to-[#3A2AF5] hover:opacity-90 mt-6"
+              className="w-full bg-gradient-to-r from-[#FFBE98] to-[#3A2AF5] hover:opacity-90 mt-6 text-white"
               disabled={!total || Number(formData.tjm) < 1000}
             >
               Générer le devis
