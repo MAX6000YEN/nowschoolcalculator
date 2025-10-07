@@ -19,8 +19,8 @@ export default function RootLayout({
             {children}
           </main>
 
-          <footer className="glass-card m-4 p-4 text-center text-white/80">
-            NowBrains – Calculateur de formation – v1.0
+          <footer className="p-4 text-center text-gray-500">
+            NowSchool - 2025
           </footer>
         </div>
       </body>
