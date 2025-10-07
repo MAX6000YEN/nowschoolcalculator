@@ -118,7 +118,7 @@ export default function Home() {
     });
 
     const buffer = await Packer.toBuffer(doc);
-    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    const blob = new Blob([new Uint8Array(buffer)], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
