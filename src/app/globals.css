@@ -1,26 +1,50 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/Nexa-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply bg-gradient-to-br from-primary to-secondary min-h-screen text-white;
+}
+
+.glass-card {
+  @apply bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-lg;
+}
+
+.glass-input {
+  @apply bg-white/10 backdrop-blur-lg rounded-lg p-2 text-white placeholder-white/50 outline-none focus:ring-2 focus:ring-white/25 w-full;
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60;
+}
+
+/* Style des boutons radio */
+.radio-group {
+  @apply flex flex-col gap-2;
+}
+
+.radio-option {
+  @apply flex items-center gap-2 cursor-pointer;
+}
+
+.radio-option input[type="radio"] {
+  @apply appearance-none w-4 h-4 rounded-full border-2 border-white/50 checked:bg-white checked:border-white transition-all duration-200 cursor-pointer;
+}
+
+.radio-option label {
+  @apply cursor-pointer;
 }
